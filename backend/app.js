@@ -1,7 +1,16 @@
-import express from 'express'
-const app=express();
-app.use(express.json())
-import productRoute from './routes/productRoute.js'
-app.use("/api/v1/",productRoute)
+const express = require("express");
+const app = express();
 
-export default app
+const errorMiddleware=require("./middlewares/error")
+
+app.use(express.json())
+
+const products=require("./routes/productRoute")
+
+
+app.use("/api/v1",products)
+
+
+app.use(errorMiddleware)
+
+module.exports=app
