@@ -1,7 +1,7 @@
 import { catchAsyncErrors } from '../middlewares/catchAsyncError.js'
 import Product from '../models/productModel.js'
+import ApiFeatures from '../utils/apiFeatures.js'
 import ErrorHandler from '../utils/errorHandler.js'
-
 export const createProduct=catchAsyncErrors(
     async(req,res,next)=>{
         const product=await Product.create(req.body)
@@ -13,9 +13,9 @@ export const createProduct=catchAsyncErrors(
     }
 )
 export const getAllProducts= catchAsyncErrors(async(req,res)=>{
-  //return next(new ErrorHandler("temp error"))
+  const apiFeature=new ApiFeatures(Product.find(),req.query).search()
   const resultPerPage=8
-  const products=await Product.find();
+  const products=await apiFeature.query;
 
     res.status(200).json({
         success:true,
