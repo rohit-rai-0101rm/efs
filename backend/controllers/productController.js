@@ -20,7 +20,44 @@ export const getAllProducts = async (req, res) => {
     products
   });
 };
-  
+export const getProductById=async(req,res)=>{
+  const product=await Product.findById(req.params.id)
+  res.status(200).json({
+    success:true,
+    product
+  })
+}
+  export const updateProduct=async(req,res)=>{
+    let product=await Product.findById(req.params.id);
+    if(!product){
+      return res.status(500).json({
+        success:false,
+        message:"product not found"
+      })
+    }
+    product=await Product.findByIdAndUpdate(req.params.id,req.body,{new:true,runValidators:true,useFindAndModify:false})
+    res.status(201).json({
+      success:true,
+      message:" one product updated ",
+      product
+    })
+
+  }
+  export const deleteProduct=async(req,res)=>{
+    const product=await Product.findById(req.params.id)
+    if(!product){
+      return res.status(500).json({
+        success:false,
+        message:"product not found"
+      })
+
+    }
+    await product.remove()
+    res.status(200).json({
+      success:true,
+      message:"product deleted"
+  })
+  }
   
   /* cloudinary.v2.api.resources({
     type: 'upload',
