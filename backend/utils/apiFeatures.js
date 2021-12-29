@@ -34,5 +34,14 @@ class ApiFeatures{
         return this
 
     }
+    pagination(resultPerPage){
+        const currentPage=Number(this.queryStr.page)||1;
+        const skip=resultPerPage*(currentPage-1)// suppose u have 50 products and want to show 10/page so total pages=5
+        //now on page 1 no products will be skipped 0n page 2 first 10 will pe skipped
+        //2 page starts with 11 th
+        //3 page starts with 21th
+       this.query= this.query.limit(resultPerPage).skip(skip)
+       return this
+    }
 }
 export default ApiFeatures
