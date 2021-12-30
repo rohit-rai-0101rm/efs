@@ -1,6 +1,7 @@
-import mongoose, { Mongoose } from "mongoose";
+import mongoose from "mongoose";
 import validator from "validator";
-export const userSchema = new Mongoose.schema({
+import bcrypt from "bcryptjs"
+export const userSchema = new mongoose.Schema({
     name:{
         type:String,
         required:[true,"please enter your name"],
@@ -13,15 +14,14 @@ export const userSchema = new Mongoose.schema({
         type:String,
         required:[true,"please enter your email"],
         unique:true,
-        validator:[validator.isEmail,"please enter  valid email"]
+        validate:[validator.isEmail,"please enter  valid email"]
     },
     password:{
         type:String,
         required:[true,"please enter your password"],
         unique:true,
-        validator:[validator.isEmail,"please enter  valid email"],
         minLength:[6,"cannot be less than 6 characters"],
-        select:false
+        select:false,
     },
     avatar:{
         
@@ -43,5 +43,12 @@ export const userSchema = new Mongoose.schema({
     resetPasswordExpire:Date
 
 });
+userSchema.pre("save",async function(next){//cant use this within arrow fn therefore using function keyword
+if(!this.isModified("password")){
+    next();
+}
+this.password=await bcrypt.hash(this.password,10)
+
+})//some actions will be performed before saving
 const User=mongoose.model("User",userSchema)
 export default User
