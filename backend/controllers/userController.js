@@ -2,7 +2,7 @@ import ErrorHandler from "../utils/errorHandler.js";
 import { catchAsyncErrors } from "../middlewares/catchAsyncError.js";
 import User from "../models/userModel.js";
 import sendToken from "../utils/jwtToken.js";
-
+import { sendEmail } from "../utils/sendEmail.js"; 
 export const registerUser = catchAsyncErrors(async (req, res, next) => {
   const { name, email, password } = req.body;
   const user = await User.create({
@@ -56,9 +56,35 @@ await user.save({validateBeforeSave:false})
 const resetPasswordUrl=`${req.protocol}://${req.get(
   "host"
   )}/api/v1/password/reset/${resetToken}`
-//re.get("host")==http://localhost:5000
+//req.get("host")==http://localhost:5000
 
 //${req.protocol}=hhtp/https
+
+const message=`You password reset token is:-\n\n${resetPasswordUrl}
+\n\n if you have not requested this email then please ignre it
+
+`
+;
+try{
+  await sendEmail({
+    email:user.email,
+    subject:`Efs password recovery`,
+    message,
+
+  });
+  res.status(200).json({
+    success:true,
+    message:`Email sent to ${user.email} successfully`
+  })
+
+}catch(err){
+  user.resetPasswordToken=undefined;
+  user.resetPasswordExpire=undefined;
+  await user.save({validateBeforeSave:false})
+
+  return next(new ErrorHandler(err.message))
+}
+
 
 
 })
