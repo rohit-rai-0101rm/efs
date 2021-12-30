@@ -44,3 +44,21 @@ export const logout=catchAsyncErrors(async(req,res)=>{
     message:"logged out"
   })
 })
+
+export const forgotPasword=catchAsyncErrors(async(req,res,next)=>{
+  const user=await User.findOne({email:req.body.email})
+  if(!user){
+    return next(new ErrorHandler("user not found",404))
+
+  }
+ const resetToken= user.getResetPasswordToken();
+await user.save({validateBeforeSave:false})
+const resetPasswordUrl=`${req.protocol}://${req.get(
+  "host"
+  )}/api/v1/password/reset/${resetToken}`
+//re.get("host")==http://localhost:5000
+
+//${req.protocol}=hhtp/https
+
+
+})

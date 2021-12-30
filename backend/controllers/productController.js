@@ -3,14 +3,15 @@ import Product from "../models/productModel.js";
 import ApiFeatures from "../utils/apiFeatures.js";
 import ErrorHandler from "../utils/errorHandler.js";
 export const createProduct = catchAsyncErrors(async (req, res, next) => {
-  const product = await Product.create(req.body);
+  req.body.user=req.user.id
+    const product = await Product.create(req.body);
   res.status(201).json({
     success: true,
     product,
   });
 });
 export const getAllProducts = catchAsyncErrors(async (req, res) => {
-  const resultPerPage = 2;
+  const resultPerPage = 5;
   const productCount = await Product.countDocuments();
 
   const apiFeature = new ApiFeatures(Product.find(), req.query)

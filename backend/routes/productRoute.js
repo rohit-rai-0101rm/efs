@@ -3,11 +3,11 @@ import { createProduct, deleteProduct, getAllProducts, getProductDetails, update
 import  {isAuthenticatedUser,authorizeRoles } from "../middlewares/auth.js"
 
 const router=express.Router()
-router.route("/products").get(isAuthenticatedUser, authorizeRoles("admin") ,getAllProducts)
-router.route("/product/new").post(isAuthenticatedUser,createProduct)
+router.route("/products").get(getAllProducts)
+router.route("/product/new").post(isAuthenticatedUser, authorizeRoles("admin"),createProduct)
 
-router.route("/product/edit/:id").put(isAuthenticatedUser,updateProduct);
+router.route("/product/edit/:id").put(isAuthenticatedUser,authorizeRoles("admin"),updateProduct);
 
-router.route("/product/:id").delete(isAuthenticatedUser,deleteProduct);
+router.route("/product/:id").delete(isAuthenticatedUser,authorizeRoles("admin"),deleteProduct);
 router.route("/product/:id").get(getProductDetails);
 export default router 
