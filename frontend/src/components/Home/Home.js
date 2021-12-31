@@ -12,7 +12,7 @@ const Home = () => {
     }
   return (
     <Fragment>
-        <MetaData title="home"/> 
+        <MetaData title="Ecommerce"/> 
       <div className="banner">
         <p>Welcome to Ecommerce</p>
         <h1>FIND AMAZING PRODUCTS BELOW</h1>
