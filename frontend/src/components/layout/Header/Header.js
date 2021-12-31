@@ -4,7 +4,8 @@ import logo from "../../../images/logo.png";
 
 const Header = () => {
     const options = {
-        burgerColorHover: "#eb4034",
+        burgerColor:"white",
+        burgerColorHover: "purple",
         logo,
         logoWidth: "20vmax",
         navColor1: "white",
