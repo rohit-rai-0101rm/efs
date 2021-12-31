@@ -7,10 +7,9 @@ import{
 
 import axios from 'axios'
 export const getProduct=()=> async (dispatch)=>{
-    const baseUrl=process.env.REACT_APP_API_KEY
     try{
         dispatch({type:ALL_PRODUCTS_REQUEST})
-        const {data}=axios.get("http:localhost:5000/api/v1/products")
+        const {data}=axios.get("api/v1/products")
         dispatch({
             type:ALL_PRODUCTS_SUCCESS,
             payload:data,
