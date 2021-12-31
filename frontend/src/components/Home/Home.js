@@ -1,9 +1,16 @@
-import React, { Fragment } from "react";
+import React, { Fragment,useEffect } from "react";
 import { CgMouse } from "react-icons/cg";
 import Product from "./Product";
 import "./Home.css";
 import MetaData from "../layout/MetaData";
+import {getProduct} from '../../actions/productActions'
+import{useSelector,useDispatch} from 'react-redux'
+
 const Home = () => {
+  const dispatch=useDispatch()
+useEffect(()=>{
+dispatch(getProduct())
+},[dispatch])
     const product={
         name:"t-shirt",
         price:"3456",
