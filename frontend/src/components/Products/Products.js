@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import './Products.css'
 import {
@@ -15,9 +15,15 @@ import { useAlert } from "react-alert";
 import Typography from "@material-ui/core/Typography";
 import MetaData from "../layout/MetaData";
 const Products = ({match}) => {
-  const dispatch = useDispatch();
+ const [currentPage, setcurrentPage] = useState(1)
+
+  const setCurrentPage=(e)=>{
+      setCurrentPage(e)
+  }
+  
+    const dispatch = useDispatch();
 const keyword=match.params.keyword
-  const { products, loading, error, productsCount } = useSelector(
+  const { products, loading, error, productsCount,resultPerPage} = useSelector(
     (state) => state.products
   );
   useEffect(() => {
@@ -33,6 +39,24 @@ const keyword=match.params.keyword
              }
 
 
+
+         </div>
+         <div className="paginationBox">
+            <Pagination
+            activePage={currentPage}
+            itemsCountPerPage={resultPerPage}
+            totalItemsCount={productsCount}
+            onChange={setCurrentPage}
+            nextPageText="Next"
+                prevPageText="Prev"
+                firstPageText="1st"
+                lastPageText="Last"
+                itemClass="page-item"
+                linkClass="page-link"
+                activeClass="pageItemActive"
+                activeLinkClass="pageLinkActive"
+            
+            />
          </div>
          
          </Fragment>}
