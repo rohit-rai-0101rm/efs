@@ -3,16 +3,21 @@ import { CgMouse } from "react-icons/cg";
 import Product from "./Product";
 import "./Home.css";
 import MetaData from "../layout/MetaData";
-import { getProduct } from "../../actions/productActions";
+import { clearErrors, getProduct } from "../../actions/productActions";
 import { useSelector, useDispatch } from "react-redux";
 import Loader from "../layout/Loading/Loading";
-
+import {useAlert} from 'react-alert'
+ 
 const Home = () => {
   const dispatch = useDispatch();
   const {loading,error,products,productsCount}=useSelector(state=>state.products)
   useEffect(() => {
+    if (error) {
+      alert.error(error);
+      dispatch(clearErrors());
+    }
     dispatch(getProduct());
-  }, [dispatch]);
+  }, [dispatch,error,alert]);
   console.log(products)
   return (
     <Fragment>
