@@ -9,12 +9,12 @@ import {
 } from "../constants/productConstants";
 
 import axios from "axios";
-export const getProducts = (keyword="") => async (dispatch) => {
+export const getProducts = (keyword="",currentPage=1) => async (dispatch) => {
   let link = `https://ecommr.herokuapp.com/api/v1/products?keyword=${keyword}`;
   try {
     dispatch({ type: ALL_PRODUCTS_REQUEST });
 
-    const { data } = await axios.get(`https://ecommr.herokuapp.com/api/v1/products?keyword=${keyword}`);
+    const { data } = await axios.get(`https://ecommr.herokuapp.com/api/v1/products?keyword=${keyword}&page=${currentPage}`);
 
     dispatch({
       type: ALL_PRODUCTS_SUCCESS,
