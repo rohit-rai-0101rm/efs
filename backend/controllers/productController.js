@@ -29,6 +29,7 @@ export const getAllProducts = catchAsyncErrors(async (req, res) => {
     success: true,
     products,
     productCount,
+    filteredProductsCount
   });
 });
 export const updateProduct = catchAsyncErrors(async (req, res, next) => {

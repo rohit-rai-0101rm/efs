@@ -9,12 +9,18 @@ import {
 } from "../constants/productConstants";
 
 import axios from "axios";
-export const getProducts = (keyword="",currentPage=1) => async (dispatch) => {
-  let link = `https://ecommr.herokuapp.com/api/v1/products?keyword=${keyword}`;
+export const getProducts = (keyword="",currentPage=1,price=[0,25000],category,ratings=0) => async (dispatch) => {
+
+
   try {
     dispatch({ type: ALL_PRODUCTS_REQUEST });
 
-    const { data } = await axios.get(`https://ecommr.herokuapp.com/api/v1/products?keyword=${keyword}&page=${currentPage}`);
+    let link = `https://ecommr.herokuapp.com/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}`;
+    if (category) {
+      link = `https://ecommr.herokuapp.com/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}&ratings[gte]=${ratings}`;
+    }
+
+    const { data } = await axios.get(`https://ecommr.herokuapp.com/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}`);
 
     dispatch({
       type: ALL_PRODUCTS_SUCCESS,
