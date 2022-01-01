@@ -7,10 +7,12 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlert } from "react-alert"
 import Loader from "../layout/Loading/Loading";
+import { clearErrors,login } from "../../actions/userActions";
+import { CLEAR_ERRORS } from "../../constants/productConstants";
 const LoginSignup = ({history,location}) => {
     const dispatch=useDispatch()
     const alert = useAlert();
-    
+   const{error,loading,isAuthenticated}=useSelector(state=>state.user)
 
 const loginTab = useRef(null);
   const registerTab = useRef(null);
@@ -26,9 +28,11 @@ const loginTab = useRef(null);
   const { name, email, password } = user;
   const [avatar, setAvatar] = useState("/Profile.png");
   const [avatarPreview, setAvatarPreview] = useState("/Profile.png");
-const loading=false
   const loginSubmit=(e)=>{
     e.preventDefault();
+    dispatch(
+        login(loginEmail,loginPassword)
+    )
   }
   const registerSubmit = (e) => {
     e.preventDefault();
@@ -58,7 +62,17 @@ const registerDataChange = (e) => {
     }
   };
   const redirect = location.search ? location.search.split("=")[1] : "/account";
-
+useEffect(() => {
+    if(error){
+        alert.error(error)
+        dispatch(
+            clearErrors()
+        )
+        }
+        if(isAuthenticated){
+            history.push("/account")
+        }
+}, [dispatch,error,alert])
   
   const switchTabs = (e, tab) => {
     if (tab === "login") {
