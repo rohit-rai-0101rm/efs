@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlert } from "react-alert"
 import Loader from "../layout/Loading/Loading";
-import { clearErrors,login } from "../../actions/userActions";
+import { clearErrors,login, register } from "../../actions/userActions";
 import { CLEAR_ERRORS } from "../../constants/productConstants";
 const LoginSignup = ({history,location}) => {
     const dispatch=useDispatch()
@@ -43,7 +43,7 @@ const loginTab = useRef(null);
     myForm.set("email", email);
     myForm.set("password", password);
     myForm.set("avatar", avatar);
-
+    dispatch(register(myForm))
 };
 const registerDataChange = (e) => {
     if (e.target.name === "avatar") {

@@ -1,11 +1,16 @@
 import app from './app.js'
-
+import cloudinary from 'cloudinary'
 import dotenv from 'dotenv'
 import  {databaseConnection}  from './config/database.js';
 
 
 dotenv.config({path:"backend/config/config.env"})
 databaseConnection();
+cloudinary.config({
+  cloud_name:process.env.CLOUDINARY_NAME,
+  api_key=process.env.CLOUDINARY_API_KEY,
+  secret_key=process.env.CLOUDINARY_SECRET_KEY
+})
 process.on("uncaughtException", (err) => {
     console.log(`Error: ${err.message}`);
     console.log(`Shutting down the server due to Uncaught Exception`);
